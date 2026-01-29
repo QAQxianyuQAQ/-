@@ -60,9 +60,14 @@ public class Main {
                     printMainManu();
                     break;
                 case 0:
-                    System.out.println("\n程序已退出");
-                    pool.shutdown();
-                    break lo;
+                    if(WareHouse.coffeeAmount > 0) {
+                        System.out.println("\n有尚未完成的订单，无法退出");
+                    }else{
+                        System.out.println("\n程序已退出");
+                        pool.shutdown();
+                        break lo;
+                    }
+                    break;
                 default:
                     System.out.println("\n输入错误!");
                     printMainManu();

@@ -12,16 +12,23 @@ public class JsonCreator {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("[\n");
-        for (int i = 0; i < orderList.size(); i++) {
-            CoffeeOrder order = orderList.get(i);
-            sb.append(order.toJsonString());
-            if (i != orderList.size() - 1) {
-                sb.append(",");
-                sb.append("\n");
+
+        if(orderList.size() == 1){
+            CoffeeOrder coffeeOrder = orderList.get(0);
+            sb.append(coffeeOrder.toJsonString());
+        }else{
+            sb.append("[\n");
+            for (int i = 0; i < orderList.size(); i++) {
+                CoffeeOrder order = orderList.get(i);
+                sb.append(order.toJsonString());
+                if (i != orderList.size() - 1) {
+                    sb.append(",");
+                    sb.append("\n");
+                }
             }
+            sb.append("\n]");
         }
-        sb.append("\n]");
+
         String jsonArrayStr = sb.toString();
 
         try (
