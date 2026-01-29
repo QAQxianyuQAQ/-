@@ -63,12 +63,12 @@ public class CoffeeOrder {
 
     public String toJsonString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("{\n");
-        sb.append("\t\"id\":").append(this.id).append(",\n");
-        sb.append("\t\"type\":\"").append(this.type == null ? "" : this.type).append("\",\n");
-        sb.append("\t\"price\":").append(this.price).append(",\n");
-        sb.append("\t\"time\":\"").append(this.time.format(DF)).append("\"\n");
-        sb.append("}");
+        sb.append("\t{\n");
+        sb.append("\t\t\"id\":").append(this.id).append(",\n");
+        sb.append("\t\t\"type\":\"").append(this.type == null ? "" : this.type).append("\",\n");
+        sb.append("\t\t\"price\":").append(this.price).append(",\n");
+        sb.append("\t\t\"time\":\"").append(this.time.format(DF)).append("\"\n");
+        sb.append("\t}");
         return sb.toString();
     }
 }
