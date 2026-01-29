@@ -65,8 +65,6 @@ public class Main {
                             System.out.println("----------------------");
                             break;
                         case 0:
-                            System.out.println("程序已退出");
-                            pool.shutdown();
                             break;
                         default:
                             System.out.println("输入错误！");
@@ -92,6 +90,8 @@ public class Main {
                     System.out.println("----------------------");
                     break;
                 case 0:
+                    System.out.println("程序已退出");
+                    pool.shutdown();
                     break lo;
                 default:
                     System.out.println("输入错误!");
