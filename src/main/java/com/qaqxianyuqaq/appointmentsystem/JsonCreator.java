@@ -7,22 +7,22 @@ import java.util.ArrayList;
 
 public class JsonCreator {
     //用来写用户json的
-    public static void writeUserToJson(ArrayList<User> orderList, String filePath) {
-        if (orderList == null || orderList.isEmpty()) {
+    public static void writeUserToJson(ArrayList<User> userList, String filePath) {
+        if (userList == null || userList.isEmpty()) {
             return;
         }
 
         StringBuilder sb = new StringBuilder();
 
-        if(orderList.size() == 1){
-            User user = orderList.get(0);
+        if(userList.size() == 1){
+            User user = userList.get(0);
             sb.append(user.toJsonString());
         }else{
             sb.append("[\n");
-            for (int i = 0; i < orderList.size(); i++) {
-                User order = orderList.get(i);
+            for (int i = 0; i < userList.size(); i++) {
+                User order = userList.get(i);
                 sb.append(order.toJsonString());
-                if (i != orderList.size() - 1) {
+                if (i != userList.size() - 1) {
                     sb.append(",");
                     sb.append("\n");
                 }
