@@ -1,14 +1,14 @@
-package com.qaqxianyuqaq.appointmentsystem;
+package com.qaqxianyuqaq.appointmentsystem.Data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class BaseResponseLoginDTO {
+@NoArgsConstructor
+public class BaseResponseUser {
     private Integer code;
-    private LoginVO data;
+    private User data;
     private String message;
 }

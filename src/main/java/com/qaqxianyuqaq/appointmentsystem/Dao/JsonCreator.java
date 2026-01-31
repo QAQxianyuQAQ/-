@@ -1,4 +1,6 @@
-package com.qaqxianyuqaq.appointmentsystem;
+package com.qaqxianyuqaq.appointmentsystem.Dao;
+import com.qaqxianyuqaq.appointmentsystem.Data.User;
+
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;

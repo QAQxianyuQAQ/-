@@ -1,4 +1,4 @@
-package com.qaqxianyuqaq.appointmentsystem;
+package com.qaqxianyuqaq.appointmentsystem.Data;
 
 import java.util.ArrayList;
 
