@@ -1,5 +1,7 @@
 package com.qaqxianyuqaq.appointmentsystem;
 
+import java.util.ArrayList;
+
 public class WareHouse {
-    public static int idCounter = 1;
+    public static ArrayList<User> users = new ArrayList<>();
 }

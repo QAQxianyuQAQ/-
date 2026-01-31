@@ -14,10 +14,6 @@ public class JsonCreator {
 
         StringBuilder sb = new StringBuilder();
 
-        if(userList.size() == 1){
-            User user = userList.get(0);
-            sb.append(user.toJsonString());
-        }else{
             sb.append("[\n");
             for (int i = 0; i < userList.size(); i++) {
                 User order = userList.get(i);
@@ -26,7 +22,7 @@ public class JsonCreator {
                     sb.append(",");
                     sb.append("\n");
                 }
-            }
+
             sb.append("\n]");
         }
 

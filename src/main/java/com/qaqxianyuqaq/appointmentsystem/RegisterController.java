@@ -35,8 +35,7 @@ public class RegisterController {
             Lock lock = new ReentrantLock();
 
             lock.lock();
-            user.setId(WareHouse.idCounter);
-            WareHouse.idCounter++;
+            user.setId(WareHouse.users.size()+1);
             lock.unlock();
 
             user.setUsername(registerDTO.getUsername());
@@ -48,7 +47,9 @@ public class RegisterController {
             user.setUpdateTime(java.time.LocalDateTime.now().toString());
             user.setIdDelete(false);
 
-            JsonCreator.writeOrderToJson();
+            WareHouse.users.add(user);
+
+            JsonCreator.writeUserToJson(WareHouse.users, "..\\resources\\users.json");
 
             return new BaseResponseUser(200, user, "注册成功");
         }
