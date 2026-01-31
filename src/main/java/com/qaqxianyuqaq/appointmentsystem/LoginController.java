@@ -1,6 +1,7 @@
 package com.qaqxianyuqaq.appointmentsystem;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tools.jackson.core.type.TypeReference;
@@ -16,7 +17,7 @@ import java.util.List;
 @RequestMapping("/users/login")
 public class LoginController {
     @PostMapping
-    public BaseResponseLoginDTO login(LoginDTO loginDTO) {
+    public BaseResponseLoginDTO login(@RequestBody LoginDTO loginDTO) {
         if(
                 loginDTO.getUsername() == null ||
                 loginDTO.getUsername().isEmpty()) {

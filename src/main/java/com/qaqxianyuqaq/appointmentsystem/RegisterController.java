@@ -3,6 +3,7 @@ package com.qaqxianyuqaq.appointmentsystem;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,7 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @RequestMapping("/users/register")
 public class RegisterController {
     @PostMapping
-    public BaseResponseUser register(RegisterDTO registerDTO) {
+    public BaseResponseUser register(@RequestBody RegisterDTO registerDTO) {
         if(
                 registerDTO.getUsername() == null ||
                 registerDTO.getUsername().isEmpty()) {
