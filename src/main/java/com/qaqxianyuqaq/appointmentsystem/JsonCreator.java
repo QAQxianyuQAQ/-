@@ -12,22 +12,6 @@ public class JsonCreator {
             return;
         }
 
-        String jsonArrayStr = getString(orderList);
-
-        try (
-                OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(filePath), StandardCharsets.UTF_8);
-                BufferedWriter bw = new BufferedWriter(osw)
-        ) {
-            bw.write(jsonArrayStr);
-            bw.flush();
-            System.out.println("用户已写入" + filePath);
-        } catch (Exception e) {
-            System.err.println("写入失败：" + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    private static String getString(ArrayList<User> orderList) {
         StringBuilder sb = new StringBuilder();
 
         if(orderList.size() == 1){
@@ -47,6 +31,17 @@ public class JsonCreator {
         }
 
         String jsonArrayStr = sb.toString();
-        return jsonArrayStr;
+
+        try (
+                OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(filePath), StandardCharsets.UTF_8);
+                BufferedWriter bw = new BufferedWriter(osw)
+        ) {
+            bw.write(jsonArrayStr);
+            bw.flush();
+            System.out.println("用户已写入" + filePath);
+        } catch (Exception e) {
+            System.err.println("写入失败：" + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
