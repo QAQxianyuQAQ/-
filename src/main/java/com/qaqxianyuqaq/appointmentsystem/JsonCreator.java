@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class JsonCreator {
-    //用来写订单json的
+    //用来写用户json的
     public static void writeUserToJson(ArrayList<User> orderList, String filePath) {
         if (orderList == null || orderList.isEmpty()) {
             return;
