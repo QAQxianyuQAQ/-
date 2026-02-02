@@ -1,4 +1,4 @@
-package com.qaqxianyuqaq.appointmentsystem;
+package com.qaqxianyuqaq.appointment_system;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

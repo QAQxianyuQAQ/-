@@ -1,4 +1,4 @@
-package com.qaqxianyuqaq.appointmentsystem.Config;
+package com.qaqxianyuqaq.appointment_system.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

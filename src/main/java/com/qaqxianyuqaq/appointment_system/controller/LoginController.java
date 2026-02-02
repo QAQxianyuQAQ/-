@@ -1,8 +1,8 @@
-package com.qaqxianyuqaq.appointmentsystem.Controller;
+package com.qaqxianyuqaq.appointment_system.controller;
 
-import com.qaqxianyuqaq.appointmentsystem.Data.BaseResponseLoginDTO;
-import com.qaqxianyuqaq.appointmentsystem.Data.LoginDTO;
-import com.qaqxianyuqaq.appointmentsystem.Data.LoginVO;
+import com.qaqxianyuqaq.appointment_system.pojo.BaseResponseLoginDTO;
+import com.qaqxianyuqaq.appointment_system.pojo.LoginDTO;
+import com.qaqxianyuqaq.appointment_system.pojo.LoginVO;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

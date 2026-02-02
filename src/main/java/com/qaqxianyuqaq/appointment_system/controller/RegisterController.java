@@ -1,10 +1,10 @@
-package com.qaqxianyuqaq.appointmentsystem.Controller;
+package com.qaqxianyuqaq.appointment_system.controller;
 
-import com.qaqxianyuqaq.appointmentsystem.Dao.JsonCreator;
-import com.qaqxianyuqaq.appointmentsystem.Data.BaseResponseUser;
-import com.qaqxianyuqaq.appointmentsystem.Data.RegisterDTO;
-import com.qaqxianyuqaq.appointmentsystem.Data.User;
-import com.qaqxianyuqaq.appointmentsystem.Data.WareHouse;
+import com.qaqxianyuqaq.appointment_system.dao.JsonCreator;
+import com.qaqxianyuqaq.appointment_system.pojo.BaseResponseUser;
+import com.qaqxianyuqaq.appointment_system.pojo.RegisterDTO;
+import com.qaqxianyuqaq.appointment_system.pojo.User;
+import com.qaqxianyuqaq.appointment_system.pojo.WareHouse;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;

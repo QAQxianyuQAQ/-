@@ -1,13 +1,14 @@
-package com.qaqxianyuqaq.appointmentsystem.Data;
+package com.qaqxianyuqaq.appointment_system.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class LoginDTO {
+@NoArgsConstructor
+public class RegisterDTO implements UserDTO{
     private String username;
     private String password;
+    private String email;
 }
