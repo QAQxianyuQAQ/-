@@ -4,11 +4,13 @@ import com.qaqxianyuqaq.appointment_system.dao.UserMapper;
 import com.qaqxianyuqaq.appointment_system.pojo.BaseResponseLoginDTO;
 import com.qaqxianyuqaq.appointment_system.pojo.LoginDTO;
 import com.qaqxianyuqaq.appointment_system.pojo.LoginVO;
+import com.qaqxianyuqaq.appointment_system.pojo.User;
 import jakarta.annotation.Resource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Base64;
 
 @Service
@@ -35,14 +37,19 @@ public class LoginServiceImpl implements LoginService{
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if(this.FormatCheck(loginDTO)){
             if(
-                    userMapper.findByUsernameAndPassword
-                            (loginDTO.getUsername(), passwordEncoder.encode(loginDTO.getPassword())) != null
+                    !userMapper.findByUsername
+                            (loginDTO.getUsername()).isEmpty()
             ){
-                return new BaseResponseLoginDTO(200, new LoginVO(
-                        Base64.getEncoder().encodeToString(
-                                loginDTO.getUsername().getBytes()
-                        )
-                ), "登录成功");
+                for(User user : userMapper.findByUsername(loginDTO.getUsername())) {
+                    if(passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
+                        return new BaseResponseLoginDTO(302, new LoginVO(
+                                Base64.getEncoder().encodeToString(
+                                        loginDTO.getUsername().getBytes()
+                                )
+                        ), "登录成功");
+                    }
+                }
+                return new BaseResponseLoginDTO(400, null, "用户不存在或密码错误");
             }else{
                 return new BaseResponseLoginDTO(400, null, "用户不存在或密码错误");
             }

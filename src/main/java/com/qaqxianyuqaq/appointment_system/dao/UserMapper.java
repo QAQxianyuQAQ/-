@@ -10,11 +10,11 @@ import java.util.ArrayList;
 
 @Mapper
 public interface UserMapper {
-    @Select("select * from users where username = #{username} and password = #{password}")
-    public User findByUsernameAndPassword(@Param("username")String username, @Param("password")String password);
+    @Select("select * from users where username = #{username}")
+    public ArrayList<User> findByUsername(@Param("username")String username);
 
     @Select("select * from users where email = #{email} and password = #{password}")
-    public User findByEmailAndPassword(@Param("email")String email,@Param("password")String password);
+    public ArrayList<User> findByEmail(@Param("email")String email);
 
     @Select("select * from users")
     public ArrayList<User> findAll();
