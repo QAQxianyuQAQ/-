@@ -16,5 +16,5 @@ public class Appointment {
     private Integer status;
     private String statusText;
     private String createTime;
-    private String updateTime;
+    private String changeTime;
 }

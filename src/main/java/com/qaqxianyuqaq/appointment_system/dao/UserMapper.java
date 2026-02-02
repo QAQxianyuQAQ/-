@@ -1,10 +1,7 @@
 package com.qaqxianyuqaq.appointment_system.dao;
 
 import com.qaqxianyuqaq.appointment_system.pojo.User;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;
 
@@ -22,9 +19,10 @@ public interface UserMapper {
     @Select("Select count(*) from users")
     public int count();
 
-    @Update("update users set username = #{username}, email = #{email}, password = #{password}, userType = #{userType}, createTime = #{createTime}, updateTime = #{updateTime}, idDelete = #{idDelete}")
+    @Update("update users set username = #{username}, email = #{email}, password = #{password}, userType = #{userType}, createTime = #{createTime}, updateTime = #{updateTime}, idDelete = #{idDelete} where id = #{id}")
     public int update(User user);
 
     @Update("insert into users(username, email, password, userType, createTime, updateTime, idDelete) values(#{username}, #{email}, #{password}, #{userType}, #{createTime}, #{updateTime}, #{idDelete})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     public int insert(User user);
 }
