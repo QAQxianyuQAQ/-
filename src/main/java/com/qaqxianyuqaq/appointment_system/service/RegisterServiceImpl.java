@@ -46,7 +46,7 @@ public class RegisterServiceImpl implements RegisterService{
             user.setUpdateTime(java.time.LocalDateTime.now().toString());
             user.setIdDelete(false);
 
-            userMapper.update(user);
+            userMapper.insert(user);
             return new BaseResponseUser(200, user, "注册成功");
         }else{
             return new BaseResponseUser(400, null, "用户名或密码或邮箱格式错误");
