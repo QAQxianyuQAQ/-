@@ -1,6 +1,6 @@
 package com.qaqxianyuqaq.appointment_system.dao;
 
-import com.qaqxianyuqaq.appointment_system.pojo.Appointment;
+import com.qaqxianyuqaq.appointment_system.pojo.appointment.Appointment;
 import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;
@@ -14,6 +14,9 @@ public interface AppointmentMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     public int insert(Appointment appointment);
 
-    @Update("update appointments set name = #{name},department = #{department},startTime = #{startTime},endTime = #{endTime},status = #{status},statusText = #{statusText},createTime = #{createTime},changeTime = #{changeTime} where id = #{id}")
+    @Update("update appointments set startTime = #{startTime},endTime = #{endTime},changeTime = #{changeTime} where id = #{id}")
     public int update(Appointment appointment);
+
+    @Delete("delete from appointments where id = #{id}")
+    public int delete(int id);
 }

@@ -1,6 +1,6 @@
 package com.qaqxianyuqaq.appointment_system.dao;
 
-import com.qaqxianyuqaq.appointment_system.pojo.User;
+import com.qaqxianyuqaq.appointment_system.pojo.user.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;

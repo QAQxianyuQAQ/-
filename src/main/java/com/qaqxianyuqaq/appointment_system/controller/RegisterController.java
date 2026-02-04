@@ -1,7 +1,7 @@
 package com.qaqxianyuqaq.appointment_system.controller;
 
-import com.qaqxianyuqaq.appointment_system.pojo.BaseResponseUser;
-import com.qaqxianyuqaq.appointment_system.pojo.RegisterDTO;
+import com.qaqxianyuqaq.appointment_system.pojo.user.BaseResponseUser;
+import com.qaqxianyuqaq.appointment_system.pojo.user.RegisterDTO;
 import com.qaqxianyuqaq.appointment_system.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

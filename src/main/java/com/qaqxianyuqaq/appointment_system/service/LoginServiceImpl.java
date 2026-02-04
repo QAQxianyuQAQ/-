@@ -1,17 +1,15 @@
 package com.qaqxianyuqaq.appointment_system.service;
 
 import com.qaqxianyuqaq.appointment_system.dao.UserMapper;
-import com.qaqxianyuqaq.appointment_system.pojo.BaseResponseLoginDTO;
-import com.qaqxianyuqaq.appointment_system.pojo.LoginDTO;
-import com.qaqxianyuqaq.appointment_system.pojo.LoginVO;
-import com.qaqxianyuqaq.appointment_system.pojo.User;
+import com.qaqxianyuqaq.appointment_system.pojo.user.BaseResponseLoginDTO;
+import com.qaqxianyuqaq.appointment_system.pojo.user.LoginDTO;
+import com.qaqxianyuqaq.appointment_system.pojo.user.LoginVO;
+import com.qaqxianyuqaq.appointment_system.pojo.user.User;
+import com.qaqxianyuqaq.appointment_system.util.JwtUtil;
 import jakarta.annotation.Resource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Base64;
 
 @Service
 public class LoginServiceImpl implements LoginService{
@@ -43,8 +41,9 @@ public class LoginServiceImpl implements LoginService{
                 for(User user : userMapper.findByUsername(loginDTO.getUsername())) {
                     if(passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
                         return new BaseResponseLoginDTO(302, new LoginVO(
-                                Base64.getEncoder().encodeToString(
-                                        loginDTO.getUsername().getBytes()
+                                JwtUtil.generateToken(
+                                        user.getUsername(),
+                                        user.getUserType()
                                 )
                         ), "登录成功");
                     }

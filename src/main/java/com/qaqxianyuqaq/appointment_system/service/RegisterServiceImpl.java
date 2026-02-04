@@ -1,9 +1,9 @@
 package com.qaqxianyuqaq.appointment_system.service;
 
 import com.qaqxianyuqaq.appointment_system.dao.UserMapper;
-import com.qaqxianyuqaq.appointment_system.pojo.BaseResponseUser;
-import com.qaqxianyuqaq.appointment_system.pojo.RegisterDTO;
-import com.qaqxianyuqaq.appointment_system.pojo.User;
+import com.qaqxianyuqaq.appointment_system.pojo.user.BaseResponseUser;
+import com.qaqxianyuqaq.appointment_system.pojo.user.RegisterDTO;
+import com.qaqxianyuqaq.appointment_system.pojo.user.User;
 import jakarta.annotation.Resource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,7 +1,7 @@
 package com.qaqxianyuqaq.appointment_system.service;
 
-import com.qaqxianyuqaq.appointment_system.pojo.BaseResponseLoginDTO;
-import com.qaqxianyuqaq.appointment_system.pojo.LoginDTO;
+import com.qaqxianyuqaq.appointment_system.pojo.user.BaseResponseLoginDTO;
+import com.qaqxianyuqaq.appointment_system.pojo.user.LoginDTO;
 
 public interface LoginService{
     public boolean FormatCheck(LoginDTO loginDTO);

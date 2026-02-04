@@ -1,14 +1,14 @@
-package com.qaqxianyuqaq.appointment_system.pojo;
+package com.qaqxianyuqaq.appointment_system.pojo.appointment;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class BaseResponseAppointment {
+@NoArgsConstructor
+public class BaseResponseBoolean {
     private Integer code;
+    private Boolean data;
     private String message;
-    private Appointment data;
 }

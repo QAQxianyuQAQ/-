@@ -1,4 +1,4 @@
-package com.qaqxianyuqaq.appointment_system.pojo;
+package com.qaqxianyuqaq.appointment_system.pojo.appointment;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
