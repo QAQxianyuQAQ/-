@@ -15,7 +15,7 @@ public class AppointmentServiceImpl implements AppointmentService{
     @Resource
     private AppointmentMapper appointmentMapper;
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
+    //校验输入时间开始先于结束
     @Override
     public boolean FormatCheck(String startTimeStr,String endTimeStr) {
         if (startTimeStr == null || startTimeStr.trim().isEmpty() ||
@@ -35,12 +35,12 @@ public class AppointmentServiceImpl implements AppointmentService{
 
         return !startTime.isBefore(endTime);
     }
-
+    //校验会议是否已完成
     @Override
     public boolean CompleteCheck(String startTimeStr) {
         return LocalDateTime.now().isAfter(LocalDateTime.parse(startTimeStr.trim(), DATE_TIME_FORMATTER));
     }
-
+    //获取所有预约
     @Override
     public BaseResponseGetAppointmentsVO getAppointments() {
         ArrayList<Appointment> appointments = appointmentMapper.findAll();
@@ -58,6 +58,7 @@ public class AppointmentServiceImpl implements AppointmentService{
         Appointments data = new Appointments(appointments, appointments.size());
         return new BaseResponseGetAppointmentsVO(true,200, "查询成功", data);
     }
+    //添加预约
     @Override
     public BaseResponseAppointment addAppointment(AddAppointmentDataDTO addAppointmentDataDTO) {
         if(FormatCheck(addAppointmentDataDTO.getStartTime(), addAppointmentDataDTO.getEndTime())) {
@@ -82,7 +83,7 @@ public class AppointmentServiceImpl implements AppointmentService{
 
         return new BaseResponseAppointment(200, "添加成功", appointment);
     }
-
+    //修改预约
     @Override
     public BaseResponseAppointment updateAppointment(UpdateAppointmentsDTO updateAppointmentsDTO) {
         if(FormatCheck(updateAppointmentsDTO.getStartTime(), updateAppointmentsDTO.getEndTime())) {
@@ -107,7 +108,7 @@ public class AppointmentServiceImpl implements AppointmentService{
         }
         return new BaseResponseAppointment(200, "更新成功", appointment);
     }
-
+    //删除预约
     @Override
     public BaseResponseBoolean deleteAppointment(Integer id) {
         try {

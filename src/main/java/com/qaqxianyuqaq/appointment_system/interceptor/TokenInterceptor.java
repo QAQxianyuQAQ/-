@@ -12,14 +12,14 @@ public class TokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURI = request.getRequestURI();
         String token = request.getHeader("token");
-
+        // token为空
         if (token == null || token.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
 
         String userType;
-
+        // 解析token
         try {
             userType = JwtUtil.getUserType(token);
         } catch (Exception e) {
@@ -28,7 +28,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
 
         String method = request.getMethod();
-
+        // 用户权限
         if ("/appointments".equals(requestURI)) {
             if ("users".equals(userType)) {
                 if (!"GET".equals(method)) {

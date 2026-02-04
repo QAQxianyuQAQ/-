@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class LoginServiceImpl implements LoginService{
     @Resource
     private UserMapper userMapper;
+    //校验输入格式
     @Override
     public boolean FormatCheck(LoginDTO loginDTO) {
         if(
@@ -29,7 +30,7 @@ public class LoginServiceImpl implements LoginService{
             return true;
         }
     }
-
+    //登录
     @Override
     public BaseResponseLoginDTO login(LoginDTO loginDTO) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

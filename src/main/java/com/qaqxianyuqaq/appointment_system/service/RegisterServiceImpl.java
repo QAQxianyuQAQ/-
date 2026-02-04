@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class RegisterServiceImpl implements RegisterService{
     @Resource
     private UserMapper userMapper;
+    // 格式检查
     @Override
     public boolean FormatCheck(RegisterDTO registerDTO) {
         if(
@@ -32,7 +33,7 @@ public class RegisterServiceImpl implements RegisterService{
         }
         return true;
     }
-
+    // 注册
     public BaseResponseUser register(RegisterDTO registerDTO) {
         if(this.FormatCheck(registerDTO)){
             User user = new User();
