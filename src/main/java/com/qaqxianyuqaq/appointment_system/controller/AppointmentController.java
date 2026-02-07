@@ -16,12 +16,12 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public BaseResponseAppointment addAppointment(AddAppointmentDataDTO AddAppointmentDataDTO) {
+    public BaseResponseAppointment addAppointment(@RequestBody AddAppointmentDataDTO AddAppointmentDataDTO) {
         return appointmentService.addAppointment(AddAppointmentDataDTO);
     }
 
     @PostMapping("/update")
-    public BaseResponseAppointment updateAppointment(UpdateAppointmentsDTO updateAppointmentsDTO) {
+    public BaseResponseAppointment updateAppointment(@RequestBody UpdateAppointmentsDTO updateAppointmentsDTO) {
         return appointmentService.updateAppointment(updateAppointmentsDTO);
     }
 
