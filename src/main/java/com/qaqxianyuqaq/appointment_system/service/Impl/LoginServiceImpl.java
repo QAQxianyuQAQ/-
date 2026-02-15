@@ -46,9 +46,11 @@ public class LoginServiceImpl implements LoginService {
     //登录
     @Override
     public BaseResponseLoginDTO login(LoginDTO loginDTO) {
+        //防恶意重复尝试登录
         if (!loginLimiter.tryAcquire(loginDTO.getUsername(), request)) {
             throw new ServiceException("登录尝试次数过多，请10分钟后再试", HttpStatus.TOO_MANY_REQUESTS.value());
         }
+
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if(this.FormatCheck(loginDTO)){
             ArrayList<User> users = userMapper.findByUsername(loginDTO.getUsername());

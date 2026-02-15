@@ -46,36 +46,47 @@ public class LoginLimiter {
 
         return true;
     }
-    public void resetLimit(String username, HttpServletRequest request) {
-        String clientIp = getClientIp(request);
-        redisTemplate.delete("login:limit:ip:" + clientIp);
-        redisTemplate.delete("login:limit:user:" + username);
-    }
 
     // 锁定操作
     private void lock(String lockKey) {
         redisTemplate.opsForValue().set(lockKey, "1", LOCK_TIME_MINUTES, TimeUnit.MINUTES);
     }
 
-    // 获取IP
+    // 获取IP(AI写的，我自己看了看大概知道是个啥了)
     private String getClientIp(HttpServletRequest request) {
-        String ip = request.getHeader("X-Forwarded-For");
+        String ip = null;
+        // 1. 从代理头获取IP（兼容Nginx/反向代理）
+        String[] headers = {"X-Forwarded-For", "Proxy-Client-IP", "WL-Proxy-Client-IP", "X-Real-IP"};
+        for (String header : headers) {
+            ip = request.getHeader(header);
+            if (ip != null && !ip.isEmpty() && !"unknown".equalsIgnoreCase(ip)) {
+                // 多级代理取第一个非unknown的IP
+                ip = ip.split(",")[0].trim();
+                // 校验IP是否合法，合法则直接返回
+                if (isValidIp(ip)) {
+                    return ip;
+                }
+            }
+        }
+
+        // 2. 从request获取原生IP
+        ip = request.getRemoteAddr();
+        // 3. 最终校验：确保IP合法，否则返回默认值（避免null）
+        return isValidIp(ip) ? ip : "0.0.0.0";
+    }
+
+    // 核心：IP合法性校验（过滤非法IP/内网IP）
+    private boolean isValidIp(String ip) {
         if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
+            return false;
         }
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
+
+        // 正则校验IP格式（IPv4）
+        String ipRegex = "^((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$";
+        if (!ip.matches(ipRegex)) {
+            return false;
         }
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("X-Real-IP");
-        }
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        //取第一个IP
-        if (ip != null && ip.contains(",")) {
-            ip = ip.split(",")[0].trim();
-        }
-        return ip;
+
+        return true;
     }
 }
