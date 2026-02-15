@@ -4,44 +4,49 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
-
+@Component
 public class JwtUtil {
     // 密钥（其实藏了个flag）
-    private static final String SECRET = "fSEhIXFLdnBfM2JlZF9rX254ZTBQX2UwSSshISFjeDAxZGsxZW5rYnF4eU17aWhq";
-    private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(SECRET.getBytes());
-    private static final long EXPIRATION_TIME = 24 * 60 * 60 * 1000;
+    @Value("${jwt.secret}")
+    private String secret;
+    @Value("${jwt.expiration-time}")
+    private long expirationTime;
+    private SecretKey getSecretKey() {
+        return Keys.hmacShaKeyFor(secret.getBytes());
+    }
     // 生成JWT
-    public static String generateToken(String username,String userType) {
+    public String generateToken(String username,String userType) {
         return Jwts.builder()
                 .subject(username)
                 .claim("userType",userType)
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SECRET_KEY)
+                .expiration(new Date(System.currentTimeMillis() + expirationTime))
+                .signWith(getSecretKey())
                 .compact();
     }
     // 解析JWT
-    public static Claims parseToken(String token) {
+    public Claims parseToken(String token) {
         try {
-            Claims claims = Jwts.parser()
-                    .verifyWith(SECRET_KEY)
+            return Jwts.parser()
+                    .verifyWith(getSecretKey())
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
-            return claims;
         } catch (JwtException | IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
     }
     // 获取用户名
-    public static String getUsername(String token) {
+    public String getUsername(String token) {
         Claims claims = parseToken(token);
         return claims.getSubject();
     }
     // 获取用户类型
-    public static String getUserType(String token) {
+    public String getUserType(String token) {
         Claims claims = parseToken(token);
         return claims.get("userType").toString();
     }

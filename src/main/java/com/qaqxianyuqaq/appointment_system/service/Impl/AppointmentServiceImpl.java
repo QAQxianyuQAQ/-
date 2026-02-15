@@ -1,8 +1,11 @@
-package com.qaqxianyuqaq.appointment_system.service;
+package com.qaqxianyuqaq.appointment_system.service.Impl;
 
 import com.qaqxianyuqaq.appointment_system.dao.AppointmentMapper;
 import com.qaqxianyuqaq.appointment_system.pojo.appointment.*;
+import com.qaqxianyuqaq.appointment_system.pojo.exception.ServiceException;
+import com.qaqxianyuqaq.appointment_system.service.AppointmentService;
 import jakarta.annotation.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -11,25 +14,14 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 @Service
-public class AppointmentServiceImpl implements AppointmentService{
+public class AppointmentServiceImpl implements AppointmentService {
     @Resource
     private AppointmentMapper appointmentMapper;
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     //校验输入时间开始先于结束
     @Override
-    public boolean FormatCheck(String startTimeStr,String endTimeStr) {
-        if (startTimeStr == null || startTimeStr.trim().isEmpty() ||
-                endTimeStr == null || endTimeStr.trim().isEmpty()) {
-            return true;
-        }
-
-        LocalDateTime startTime = null;
-        LocalDateTime endTime = null;
-
-        try {
-            startTime = LocalDateTime.parse(startTimeStr.trim(), DATE_TIME_FORMATTER);
-            endTime = LocalDateTime.parse(endTimeStr.trim(), DATE_TIME_FORMATTER);
-        } catch (DateTimeParseException e) {
+    public boolean FormatCheck(LocalDateTime startTime,LocalDateTime endTime) {
+        if (startTime == null || endTime == null) {
             return true;
         }
 
@@ -37,8 +29,8 @@ public class AppointmentServiceImpl implements AppointmentService{
     }
     //校验会议是否已完成
     @Override
-    public boolean CompleteCheck(String startTimeStr) {
-        return LocalDateTime.now().isAfter(LocalDateTime.parse(startTimeStr.trim(), DATE_TIME_FORMATTER));
+    public boolean CompleteCheck(LocalDateTime startTime) {
+        return LocalDateTime.now().isAfter(startTime);
     }
     //获取所有预约
     @Override
@@ -46,7 +38,7 @@ public class AppointmentServiceImpl implements AppointmentService{
         ArrayList<Appointment> appointments = appointmentMapper.findAll();
 
         if(appointments.isEmpty()) {
-            return new BaseResponseGetAppointmentsVO(true,200, "暂无数据", null);
+            return new BaseResponseGetAppointmentsVO(true,HttpStatus.OK.value(), "暂无数据", null);
         }
         for (Appointment appointment : appointments) {
             if (this.CompleteCheck(appointment.getStartTime())) {
@@ -56,13 +48,13 @@ public class AppointmentServiceImpl implements AppointmentService{
             }
         }
         Appointments data = new Appointments(appointments, appointments.size());
-        return new BaseResponseGetAppointmentsVO(true,200, "查询成功", data);
+        return new BaseResponseGetAppointmentsVO(true,HttpStatus.OK.value(), "查询成功", data);
     }
     //添加预约
     @Override
     public BaseResponseAppointment addAppointment(AddAppointmentDataDTO addAppointmentDataDTO) {
         if(FormatCheck(addAppointmentDataDTO.getStartTime(), addAppointmentDataDTO.getEndTime())) {
-            return new BaseResponseAppointment(400, "时间格式错误", null);
+            throw new ServiceException("时间格式错误", HttpStatus.BAD_REQUEST.value());
         }
         Appointment appointment = new Appointment(
                 addAppointmentDataDTO.getCustomer_name(),
@@ -71,28 +63,24 @@ public class AppointmentServiceImpl implements AppointmentService{
                 addAppointmentDataDTO.getEndTime(),
                 0,
                 "待开始",
-                java.time.LocalDateTime.now().toString(),
-                java.time.LocalDateTime.now().toString()
+                java.time.LocalDateTime.now(),
+                java.time.LocalDateTime.now()
         );
 
-        try {
-            appointmentMapper.insert(appointment);
-        } catch (Exception e) {
-            return new BaseResponseAppointment(500,"添加失败",null);
-        }
+        appointmentMapper.insert(appointment);
 
-        return new BaseResponseAppointment(200, "添加成功", appointment);
+        return new BaseResponseAppointment(HttpStatus.OK.value(), "添加成功", appointment);
     }
     //修改预约
     @Override
     public BaseResponseAppointment updateAppointment(UpdateAppointmentsDTO updateAppointmentsDTO) {
         if(FormatCheck(updateAppointmentsDTO.getStartTime(), updateAppointmentsDTO.getEndTime())) {
-            return new BaseResponseAppointment(400, "时间格式错误", null);
+            throw new ServiceException("时间格式错误", HttpStatus.BAD_REQUEST.value());
         }
 
         Appointment appointment = new Appointment();
         appointment.setId(updateAppointmentsDTO.getId());
-        appointment.setChangeTime(java.time.LocalDateTime.now().toString());
+        appointment.setChangeTime(java.time.LocalDateTime.now());
         appointment.setStartTime(updateAppointmentsDTO.getStartTime());
         appointment.setEndTime(updateAppointmentsDTO.getEndTime());
 
@@ -101,21 +89,16 @@ public class AppointmentServiceImpl implements AppointmentService{
             appointment.setStatusText("待开始");
         }
 
-        try {
-            appointmentMapper.update(appointment);
-        } catch (Exception e) {
-            return new BaseResponseAppointment(500,"更新失败",null);
-        }
-        return new BaseResponseAppointment(200, "更新成功", appointment);
+        appointmentMapper.update(appointment);
+        return new BaseResponseAppointment(HttpStatus.OK.value(), "更新成功", appointment);
     }
     //删除预约
     @Override
     public BaseResponseBoolean deleteAppointment(Integer id) {
-        try {
-            appointmentMapper.delete(id);
-        } catch (Exception e) {
-            return new BaseResponseBoolean(500,false,"删除失败");
+        if(appointmentMapper.findById(id) == null) {
+            throw new ServiceException("预约不存在", HttpStatus.BAD_REQUEST.value());
         }
-        return new BaseResponseBoolean(200,true, "删除成功");
+        appointmentMapper.delete(id);
+        return new BaseResponseBoolean(HttpStatus.OK.value(),true, "删除成功");
     }
 }

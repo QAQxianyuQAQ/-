@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,14 +13,14 @@ public class Appointment {
     private Integer id;
     private String name;
     private String department;
-    private String startTime;
-    private String endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private Integer status;
     private String statusText;
-    private String createTime;
-    private String changeTime;
+    private LocalDateTime createTime;
+    private LocalDateTime changeTime;
 
-    public Appointment(String name, String department, String startTime, String endTime, int status, String statusText, String createTime, String changeTime) {
+    public Appointment(String name, String department, LocalDateTime startTime, LocalDateTime endTime, int status, String statusText, LocalDateTime createTime, LocalDateTime changeTime) {
         this.name = name;
         this.department = department;
         this.startTime = startTime;

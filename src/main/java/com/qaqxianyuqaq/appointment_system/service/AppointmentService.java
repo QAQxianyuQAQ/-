@@ -2,9 +2,12 @@ package com.qaqxianyuqaq.appointment_system.service;
 
 import com.qaqxianyuqaq.appointment_system.pojo.appointment.*;
 
+import java.time.LocalDateTime;
+
 public interface AppointmentService {
-    public boolean FormatCheck(String startTimeStr,String endTimeStr);
-    public boolean CompleteCheck(String startTimeStr);
+    public boolean FormatCheck(LocalDateTime startTime,LocalDateTime endTime);
+    public boolean CompleteCheck(LocalDateTime startTime);
+
     public BaseResponseGetAppointmentsVO getAppointments();
 
     public BaseResponseAppointment addAppointment(AddAppointmentDataDTO addAppointmentDataDTO);
